@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MyHangmanApp</string>
+    <string name="name_key">name</string>
+
     <string name="frontPagePicture">Hangman billede</string>
     <string name="nextButton">Next</string>
     <string name="enter_your_name">Enter your name</string>
