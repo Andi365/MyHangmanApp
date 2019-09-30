@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MyHangmanApp</string>
+    <string name="frontPagePicture">Hangman billede</string>
+    <string name="nextButton">Next</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="welcome_text">Welcome to this simple Hangman APP, made by: s185146</string>
 </resources>
