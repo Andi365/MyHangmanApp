@@ -6,4 +6,8 @@
     <string name="nextButton">Next</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="welcome_text">Welcome to this simple Hangman APP, made by: s185146</string>
+    <string name="gamepagepicture">game_Page_Picture</string>
+
+    <string name="fixedText">Welcome to this Hangman game, </string>
+    <string name="enter_your_guess">Enter your guess</string>
 </resources>
