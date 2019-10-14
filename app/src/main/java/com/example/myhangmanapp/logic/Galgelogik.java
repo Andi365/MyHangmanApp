@@ -19,6 +19,7 @@ public class Galgelogik {
     private boolean sidsteBogstavVarKorrekt;
     private boolean spilletErVundet;
     private boolean spilletErTabt;
+    private static Galgelogik galgelogik;
 
     public Galgelogik() {
         muligeOrd.add("bil");
@@ -33,6 +34,9 @@ public class Galgelogik {
         nulstil();
     }
 
+    public static synchronized Galgelogik getInstance() {
+        return galgelogik;
+    }
 
     public ArrayList<String> getBrugteBogstaver() {
         return brugteBogstaver;
@@ -93,7 +97,7 @@ public class Galgelogik {
 
     public void gætBogstav(String bogstav) {
         if (bogstav.length() != 1) return;
-        System.out.println("Der gættes på bogstavet: " + bogstav);
+        //System.out.println("Der gættes på bogstavet: " + bogstav);
         if (brugteBogstaver.contains(bogstav)) return;
         if (spilletErVundet || spilletErTabt) return;
 
