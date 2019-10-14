@@ -24,6 +24,8 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     private EditText guessField;
     private Button submitGuess;
     private Pictures pictures;
+    private String name;
+    Galgelogik logik;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,41 +39,37 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
 
         String name = getStringFromMainActivity();
 
-        String fixedTextContainer = String.format("Welcome to this Hangman game, %s", name/*getResources().getString(R.string.name_key)*/);
-        System.out.println(fixedTextContainer);
+        String fixedTextContainer = String.format("Welcome to this Hangman game, %s", name);
         fixedText.setText(fixedTextContainer);
         pictures = new Pictures();
+        logik = new Galgelogik();
 
         submitGuess.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View isClicked) {
-        Galgelogik logik = new Galgelogik();
         String guess = guessField.getText().toString();
 
-        if(submitGuess == isClicked) {
-            logik.gætBogstav(guess);
-            if(!logik.erSidsteBogstavKorrekt()) {
-                if(logik.getAntalForkerteBogstaver() != 0) {
-                    loadPicture(logik.getAntalForkerteBogstaver());
-                }
+        logik.gætBogstav(guess);
+        if(!logik.erSidsteBogstavKorrekt()) {
+            if(logik.getAntalForkerteBogstaver() != 0) {
+                loadScreen(logik.getAntalForkerteBogstaver());
             }
         }
     }
 
-    private void loadPicture(int pictureNumber) {
+    private void loadScreen(int pictureNumber) {
+        // Loading the right hangman picture
         Picture picture = pictures.getHangmanPicture(pictureNumber);
 
         Drawable hangmanTopImage = ContextCompat.getDrawable(this,picture.getHangmanPicture());
         hangmanPicture.setImageDrawable(hangmanTopImage);
-
-
     }
 
     private String getStringFromMainActivity() {
         Intent intent = getIntent();
-        String name = intent.getStringExtra("key");
+        name = intent.getStringExtra(getString(R.string.name_key));
         return name;
     }
 
