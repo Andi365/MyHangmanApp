@@ -52,11 +52,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         String guess = guessField.getText().toString();
 
         logik.gætBogstav(guess);
-        if(!logik.erSidsteBogstavKorrekt()) {
-            if(logik.getAntalForkerteBogstaver() != 0) {
-                loadScreen(logik.getAntalForkerteBogstaver());
-            }
-        }
+        loadScreen(logik.getAntalForkerteBogstaver());
     }
 
     private void loadScreen(int pictureNumber) {
