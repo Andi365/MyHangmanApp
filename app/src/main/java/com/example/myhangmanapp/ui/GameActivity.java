@@ -21,6 +21,7 @@ import com.example.myhangmanapp.model.Pictures;
 public class GameActivity extends AppCompatActivity implements OnClickListener {
     private ImageView hangmanPicture;
     private TextView fixedText;
+    private TextView wordField;
     private EditText guessField;
     private Button submitGuess;
     private Pictures pictures;
@@ -36,6 +37,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         fixedText = findViewById(R.id.gameStartText);
         guessField = findViewById(R.id.guessContainer);
         submitGuess = findViewById(R.id.guessButton);
+        wordField = findViewById(R.id.wordField);
 
         String name = getStringFromMainActivity();
 
@@ -61,6 +63,8 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
 
         Drawable hangmanTopImage = ContextCompat.getDrawable(this,picture.getHangmanPicture());
         hangmanPicture.setImageDrawable(hangmanTopImage);
+
+        wordField.setText(logik.getSynligtOrd());
     }
 
     private String getStringFromMainActivity() {

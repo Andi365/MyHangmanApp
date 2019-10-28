@@ -10,4 +10,5 @@
 
     <string name="fixedText">Welcome to this Hangman game, </string>
     <string name="enter_your_guess">Enter your guess</string>
+    <string name="wordfield">Please submit first guess</string>
 </resources>
