@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +40,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         submitGuess = findViewById(R.id.guessButton);
         wordField = findViewById(R.id.wordField);
 
-        String name = getStringFromMainActivity();
+        name = getStringFromMainActivity();
 
         String fixedTextContainer = String.format("Welcome to this Hangman game, %s", name);
         fixedText.setText(fixedTextContainer);
@@ -58,13 +59,29 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void loadScreen(int pictureNumber) {
+        // Checks if game is lost or won and display screen accordingly
+        if(logik.erSpilletVundet()) {
+            activitySwitchWinOrLost("1");
+        } else if(logik.erSpilletTabt()) {
+            activitySwitchWinOrLost("0");
+        }
+
+        System.out.println("test " + logik.erSpilletSlut());
+
         // Loading the right hangman picture
         Picture picture = pictures.getHangmanPicture(pictureNumber);
-
         Drawable hangmanTopImage = ContextCompat.getDrawable(this,picture.getHangmanPicture());
         hangmanPicture.setImageDrawable(hangmanTopImage);
 
         wordField.setText(logik.getSynligtOrd());
+    }
+
+    private void activitySwitchWinOrLost(String wonOrLost) {
+        Resources resources = getResources();
+        String statusKey = resources.getString(R.string.won_or_lost);
+        Intent intent = new Intent(GameActivity.this,WonOrLostActivity.class);
+        intent.putExtra(statusKey, wonOrLost);
+        startActivity(intent);
     }
 
     private String getStringFromMainActivity() {

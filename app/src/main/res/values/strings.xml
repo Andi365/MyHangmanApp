@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">MyHangmanApp</string>
+    <string name="app_name">s185146 Anders Eisenhardts galgeleg</string>
     <string name="name_key">name</string>
+    <string name="won_or_lost">hej</string>
 
     <string name="frontPagePicture">Hangman billede</string>
     <string name="nextButton">Next</string>
@@ -11,4 +12,11 @@
     <string name="fixedText">Welcome to this Hangman game, </string>
     <string name="enter_your_guess">Enter your guess</string>
     <string name="wordfield">Please submit first guess</string>
+    <string name="you_won">You won!</string>
+    <string name="you_lost">You lost!</string>
+
+    <string-array name="colors">
+        <item>#39add1</item>
+        <item>#e15258</item>
+    </string-array>
 </resources>
