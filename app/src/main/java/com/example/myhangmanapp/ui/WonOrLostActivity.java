@@ -13,12 +13,14 @@ import android.widget.TextView;
 import android.graphics.Color;
 
 import com.example.myhangmanapp.R;
+import com.example.myhangmanapp.logic.Galgelogik;
 
 public class WonOrLostActivity extends AppCompatActivity implements OnClickListener {
-    private TextView wonOrLostText;
+    private TextView wonOrLostText,triesOrWordText;
     private Button tryAgainButton;
     private ConstraintLayout constraintLayout;
-    int statusKey;
+    private String tries;
+    Galgelogik logik;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,36 +30,42 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         wonOrLostText = findViewById(R.id.statusText);
         tryAgainButton = findViewById(R.id.newGame);
         constraintLayout = findViewById(R.id.theme);
+        triesOrWordText = findViewById(R.id.triesOrWord);
 
-        statusKey = getStringFromGameActivity();
-        wonOrLost(statusKey);
+        logik = logik.getInstance();
+
+        //tries = getStringFromGameActivity();
+        wonOrLost();
 
         tryAgainButton.setOnClickListener(this);
     }
 
-    private int getStringFromGameActivity() {
+    /*private String getStringFromGameActivity() {
         Intent intent = getIntent();
-        String wonOrLost = intent.getStringExtra(getString(R.string.won_or_lost));
-        statusKey = Integer.parseInt(wonOrLost);
-        return statusKey;
-    }
+        String wonOrLost = intent.getStringExtra(getString(R.string.tries));
+        tries = wonOrLost;
 
-    private void wonOrLost(int statusKey) {
+        return tries;
+    }*/
+
+    private void wonOrLost() {
         int color;
         String[] colors;
         Resources resources;
-        if(statusKey == 1) {
+        if(logik.erSpilletVundet()) {
             resources = getResources();
             colors = resources.getStringArray(R.array.colors);
             color = Color.parseColor(colors[0]);
             constraintLayout.setBackgroundColor(color);
             wonOrLostText.setText(R.string.you_won);
+            triesOrWordText.setText(Integer.toString(logik.getAntalForkerteBogstaver()));
         } else {
             resources = getResources();
             colors = resources.getStringArray(R.array.colors);
             color = Color.parseColor(colors[1]);
             constraintLayout.setBackgroundColor(color);
             wonOrLostText.setText(R.string.you_lost);
+            triesOrWordText.setText("The word you tried to guess was: " + logik.getOrdet());
         }
     }
 
@@ -65,6 +73,4 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
     public void onClick(View isClicked) {
 
     }
-
-
 }

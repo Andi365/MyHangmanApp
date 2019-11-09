@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     private Pictures pictures;
     private String name;
     Galgelogik logik;
+    AsyncTask<?,?,?> downloadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,8 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         String fixedTextContainer = String.format("Welcome to this Hangman game, %s", name);
         fixedText.setText(fixedTextContainer);
         pictures = new Pictures();
-        logik = new Galgelogik();
+        logik = logik.getInstance();
+        wordField.setText(logik.getSynligtOrd());
 
         submitGuess.setOnClickListener(this);
     }
@@ -60,15 +63,13 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
 
     private void loadScreen(int pictureNumber) {
         // Checks if game is lost or won and display screen accordingly
-        if(logik.erSpilletVundet()) {
-            activitySwitchWinOrLost("1");
-        } else if(logik.erSpilletTabt()) {
-            activitySwitchWinOrLost("0");
+        if(logik.erSpilletVundet() || logik.erSpilletTabt()) {
+            activitySwitchWinOrLost(logik.getAntalForkerteBogstaver());
         }
 
         System.out.println("test " + logik.erSpilletSlut());
 
-        // Loading the right hangman picture
+        // Loading the right hangman picture & txt
         Picture picture = pictures.getHangmanPicture(pictureNumber);
         Drawable hangmanTopImage = ContextCompat.getDrawable(this,picture.getHangmanPicture());
         hangmanPicture.setImageDrawable(hangmanTopImage);
@@ -76,11 +77,12 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         wordField.setText(logik.getSynligtOrd());
     }
 
-    private void activitySwitchWinOrLost(String wonOrLost) {
+    private void activitySwitchWinOrLost(int wrongLetters) {
         Resources resources = getResources();
-        String statusKey = resources.getString(R.string.won_or_lost);
+        String tries = resources.getString(R.string.tries);
+        String wrongLetter = Integer.toString(wrongLetters);
         Intent intent = new Intent(GameActivity.this,WonOrLostActivity.class);
-        intent.putExtra(statusKey, wonOrLost);
+        intent.putExtra(tries, wrongLetter);
         startActivity(intent);
     }
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">s185146 Anders Eisenhardts galgeleg</string>
     <string name="name_key">name</string>
-    <string name="won_or_lost">hej</string>
+    <string name="tries">0</string>
 
     <string name="frontPagePicture">Hangman billede</string>
     <string name="nextButton">Next</string>

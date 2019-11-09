@@ -10,8 +10,4 @@ public class Picture {
     public int getHangmanPicture() {
         return hangmanPicture;
     }
-
-    public void setHangmanPicture(int hangmanPicture) {
-        this.hangmanPicture = hangmanPicture;
-    }
 }

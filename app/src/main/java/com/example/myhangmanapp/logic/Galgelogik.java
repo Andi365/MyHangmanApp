@@ -19,23 +19,24 @@ public class Galgelogik {
     private boolean sidsteBogstavVarKorrekt;
     private boolean spilletErVundet;
     private boolean spilletErTabt;
-    private static Galgelogik galgelogik;
 
-    public Galgelogik() {
+    private static final Galgelogik galgeinstans = new Galgelogik();
+
+    private Galgelogik() {
         muligeOrd.add("bil");
         muligeOrd.add("computer");
-        muligeOrd.add("programmering");
+        /*muligeOrd.add("programmering");
         muligeOrd.add("motorvej");
         muligeOrd.add("busrute");
         muligeOrd.add("gangsti");
         muligeOrd.add("skovsnegl");
         muligeOrd.add("solsort");
-        muligeOrd.add("nitten");
+        muligeOrd.add("nitten");*/
         nulstil();
     }
 
-    public static synchronized Galgelogik getInstance() {
-        return galgelogik;
+    public static Galgelogik getInstance() {
+        return galgeinstans;
     }
 
     public ArrayList<String> getBrugteBogstaver() {
@@ -111,7 +112,7 @@ public class Galgelogik {
             sidsteBogstavVarKorrekt = false;
             System.out.println("Bogstavet var IKKE korrekt: " + bogstav);
             antalForkerteBogstaver = antalForkerteBogstaver + 1;
-            if (antalForkerteBogstaver > 6) {
+            if (antalForkerteBogstaver >= 6) {
                 spilletErTabt = true;
             }
         }
