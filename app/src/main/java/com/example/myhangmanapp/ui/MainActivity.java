@@ -14,8 +14,7 @@ import com.example.myhangmanapp.R;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
     private EditText nameField;
-    private Button startButton;
-
+    private Button normalGame,drGame,spreadsheetGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,20 +22,31 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_main);
 
         nameField = findViewById(R.id.nameContainer);
-        startButton = findViewById(R.id.nextPage);
+        normalGame = findViewById(R.id.normalGame);
+        drGame = findViewById(R.id.getListFromDR);
+        spreadsheetGame = findViewById(R.id.getListFromSpreadsheet);
 
-        startButton.setOnClickListener(this);
+        normalGame.setOnClickListener(this);
+        drGame.setOnClickListener(this);
+        spreadsheetGame.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View isClicked) {
         String name = nameField.getText().toString();
+        Resources resources = getResources();
+        String nameKey = resources.getString(R.string.name_key);
+        String gameKey = resources.getString(R.string.game_select_key);
+        Intent intent = new Intent(MainActivity.this,GameActivity.class);
+        intent.putExtra(nameKey, name);
 
-        if(startButton == isClicked) {
-            Resources resources = getResources();
-            String key = resources.getString(R.string.name_key);
-            Intent intent = new Intent(MainActivity.this,GameActivity.class);
-            intent.putExtra(key, name);
+        if(normalGame == isClicked) {
+            startActivity(intent);
+        } else if(drGame == isClicked) {
+            intent.putExtra(gameKey,"1");
+            startActivity(intent);
+        } else if(spreadsheetGame == isClicked) {
+            intent.putExtra(gameKey,"2");
             startActivity(intent);
         }
     }

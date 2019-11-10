@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">s185146 Anders Eisenhardts galgeleg</string>
+
+
+    <!-- keys -->
     <string name="name_key">name</string>
+    <string name="game_select_key">0</string>
     <string name="tries">0</string>
 
     <string name="frontPagePicture">Hangman billede</string>
-    <string name="nextButton">Next</string>
+    <string name="normalGame">Start normal game</string>
+    <string name="DR">Game with words from DR.dk</string>
+    <string name="spreadsheet">Game with words from spreadsheet</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="welcome_text">Welcome to this simple Hangman APP, made by: s185146</string>
     <string name="gamepagepicture">game_Page_Picture</string>

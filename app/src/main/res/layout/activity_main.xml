@@ -36,25 +36,53 @@
         android:id="@+id/nameContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/enter_your_name"
         android:inputType="textPersonName|textCapWords"
         android:maxLength="30"
         android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/nextPage"
+        app:layout_constraintBottom_toTopOf="@+id/getListFromDR"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/nextPage"
+        android:id="@+id/normalGame"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:text="@string/nextButton"
+        android:text="@string/normalGame"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/getListFromDR"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/white"
+        android:text="@string/DR"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/getListFromSpreadsheet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/getListFromSpreadsheet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/white"
+        android:text="@string/spreadsheet"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/normalGame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />

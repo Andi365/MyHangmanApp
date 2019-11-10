@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +21,7 @@ import com.example.myhangmanapp.model.Picture;
 import com.example.myhangmanapp.model.Pictures;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.CountDownLatch;
 
 public class GameActivity extends AppCompatActivity implements OnClickListener {
     private ImageView hangmanPicture;
@@ -31,13 +31,16 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     private Button submitGuess;
     private Pictures pictures;
     private String name;
+    private String gameSelect;
     Galgelogik logik;
+    final CountDownLatch latch = new CountDownLatch(1);
     //private Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        logik = logik.getInstance();
 
         hangmanPicture = findViewById(R.id.gameImageview);
         fixedText = findViewById(R.id.gameStartText);
@@ -45,29 +48,22 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         submitGuess = findViewById(R.id.guessButton);
         wordField = findViewById(R.id.wordField);
 
-        name = getStringFromMainActivity();
+        name = getName();
 
         String fixedTextContainer = String.format("Welcome to this Hangman game, %s", name);
         fixedText.setText(fixedTextContainer);
         pictures = new Pictures();
 
-        logik = logik.getInstance();
         System.out.println("task her");
-        startAsyncTask();
-        //task = new Task();
+        //startAsyncTask();
+        hentRegneArk.start();
 
-        /*Thread hentRegneArk = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    logik.hentOrdFraRegneark("12");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                logik.nulstil();
-            }
-        };
-        hentRegneArk.start();*/
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        logik.logStatus();
 
         System.out.println("task færdig her");
 
@@ -76,10 +72,10 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         submitGuess.setOnClickListener(this);
     }
 
-    private void startAsyncTask() {
+    /*private void startAsyncTask() {
         Task task = new Task(this);
         task.execute();
-    }
+    }*/
 
     @Override
     public void onClick(View isClicked) {
@@ -115,13 +111,19 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         startActivity(intent);
     }
 
-    private String getStringFromMainActivity() {
+    private String getName() {
         Intent intent = getIntent();
         name = intent.getStringExtra(getString(R.string.name_key));
         return name;
     }
 
-    private static class Task extends AsyncTask<Void,Void,Void> {
+    private String getGameKey() {
+        Intent intent = getIntent();
+        gameSelect = intent.getStringExtra(getString(R.string.game_select_key));
+        return gameSelect;
+    }
+
+    /*private static class Task extends AsyncTask<Void,Void,Void> {
         private WeakReference<GameActivity> activityWeakReference;
 
         Task(GameActivity activity) {
@@ -147,5 +149,31 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
             System.out.println("Task finished");
         }
 
-    }
+    }*/
+
+    Thread hentRegneArk = new Thread() {
+
+            @Override
+            public void run() {
+                gameSelect = getGameKey();
+                if(gameSelect.equals("1")) {
+                    try {
+                        logik.hentOrdFraDr();
+                        latch.countDown();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else if(gameSelect.equals("2")) {
+                    try {
+                        logik.hentOrdFraRegneark("12");
+                        latch.countDown();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    logik.nulstil();
+                }
+            }
+        };
 }
