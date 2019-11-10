@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +30,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     private Pictures pictures;
     private String name;
     Galgelogik logik;
-    AsyncTask<?,?,?> downloadTask;
+    //private Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,14 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         String fixedTextContainer = String.format("Welcome to this Hangman game, %s", name);
         fixedText.setText(fixedTextContainer);
         pictures = new Pictures();
+
         logik = logik.getInstance();
+        System.out.println("task her");
+        //task = new Task();
+        hej();
+        SystemClock.sleep(2000);
+        System.out.println("task færdig her");
+
         wordField.setText(logik.getSynligtOrd());
 
         submitGuess.setOnClickListener(this);
@@ -59,6 +67,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
 
         logik.gætBogstav(guess);
         loadScreen(logik.getAntalForkerteBogstaver());
+        guessField.getText().clear();
     }
 
     private void loadScreen(int pictureNumber) {
@@ -67,7 +76,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
             activitySwitchWinOrLost(logik.getAntalForkerteBogstaver());
         }
 
-        System.out.println("test " + logik.erSpilletSlut());
+        System.out.println("Is game over?:  " + logik.erSpilletSlut());
 
         // Loading the right hangman picture & txt
         Picture picture = pictures.getHangmanPicture(pictureNumber);
@@ -92,5 +101,38 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         return name;
     }
 
+    public void hej() {
+        Thread hentRegneArk = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    logik.hentOrdFraRegneark("12");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                logik.nulstil();
+            }
+        };
+        hentRegneArk.start();
+    }
 
+    /*class Task extends AsyncTask<String,String,String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                System.out.println("in doInBackGround");
+                logik.hentOrdFraRegneark("12");
+                System.out.println("Finished");
+                SystemClock.sleep(20000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            System.out.println("Task finished");
+        }
+    }*/
 }

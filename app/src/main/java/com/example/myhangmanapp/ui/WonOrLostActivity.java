@@ -40,6 +40,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         tryAgainButton.setOnClickListener(this);
     }
 
+    //Could be used instead of just using the logic
     /*private String getStringFromGameActivity() {
         Intent intent = getIntent();
         String wonOrLost = intent.getStringExtra(getString(R.string.tries));
@@ -57,8 +58,9 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             colors = resources.getStringArray(R.array.colors);
             color = Color.parseColor(colors[0]);
             constraintLayout.setBackgroundColor(color);
+            String tries = Integer.toString(logik.getAntalForkerteBogstaver());
             wonOrLostText.setText(R.string.you_won);
-            triesOrWordText.setText(Integer.toString(logik.getAntalForkerteBogstaver()));
+            triesOrWordText.setText("You won with " + tries + " tries");
         } else {
             resources = getResources();
             colors = resources.getStringArray(R.array.colors);

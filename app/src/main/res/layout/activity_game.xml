@@ -34,14 +34,14 @@
         android:id="@+id/guessContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/enter_your_guess"
         android:maxLength="30"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/guessButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -51,7 +51,7 @@
         android:background="#5BC0DE"
         android:text="@string/enter_your_guess"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guessContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -63,10 +63,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/wordfield"
-        app:layout_constraintBottom_toTopOf="@+id/guessContainer"
+        app:layout_constraintBottom_toTopOf="@+id/guessButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameStartText" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
