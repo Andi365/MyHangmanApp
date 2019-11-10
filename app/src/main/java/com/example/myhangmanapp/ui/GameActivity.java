@@ -21,6 +21,8 @@ import com.example.myhangmanapp.logic.Galgelogik;
 import com.example.myhangmanapp.model.Picture;
 import com.example.myhangmanapp.model.Pictures;
 
+import java.lang.ref.WeakReference;
+
 public class GameActivity extends AppCompatActivity implements OnClickListener {
     private ImageView hangmanPicture;
     private TextView fixedText;
@@ -51,14 +53,32 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
 
         logik = logik.getInstance();
         System.out.println("task her");
+        startAsyncTask();
         //task = new Task();
-        hej();
-        SystemClock.sleep(2000);
+
+        /*Thread hentRegneArk = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    logik.hentOrdFraRegneark("12");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                logik.nulstil();
+            }
+        };
+        hentRegneArk.start();*/
+
         System.out.println("task færdig her");
 
         wordField.setText(logik.getSynligtOrd());
 
         submitGuess.setOnClickListener(this);
+    }
+
+    private void startAsyncTask() {
+        Task task = new Task(this);
+        task.execute();
     }
 
     @Override
@@ -101,29 +121,21 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         return name;
     }
 
-    public void hej() {
-        Thread hentRegneArk = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    logik.hentOrdFraRegneark("12");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                logik.nulstil();
-            }
-        };
-        hentRegneArk.start();
-    }
+    private static class Task extends AsyncTask<Void,Void,Void> {
+        private WeakReference<GameActivity> activityWeakReference;
 
-    /*class Task extends AsyncTask<String,String,String> {
+        Task(GameActivity activity) {
+            activityWeakReference = new WeakReference<>(activity);
+        }
+
         @Override
-        protected String doInBackground(String... strings) {
+        protected Void doInBackground(Void... strings) {
             try {
                 System.out.println("in doInBackGround");
-                logik.hentOrdFraRegneark("12");
+                GameActivity activity = activityWeakReference.get();
+
+                activity.logik.hentOrdFraRegneark("13");
                 System.out.println("Finished");
-                SystemClock.sleep(20000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -131,8 +143,9 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(Void aVoid) {
             System.out.println("Task finished");
         }
-    }*/
+
+    }
 }

@@ -1,5 +1,7 @@
 package com.example.myhangmanapp.logic;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,8 +26,8 @@ public class Galgelogik {
 
     private Galgelogik() {
         muligeOrd.add("bil");
-        muligeOrd.add("computer");
-        /*muligeOrd.add("programmering");
+        /*muligeOrd.add("computer");
+        muligeOrd.add("programmering");
         muligeOrd.add("motorvej");
         muligeOrd.add("busrute");
         muligeOrd.add("gangsti");
@@ -142,7 +144,6 @@ public class Galgelogik {
         }
         return sb.toString();
     }
-
 
     /**
      * Hent ord fra DRs forside (https://dr.dk)
