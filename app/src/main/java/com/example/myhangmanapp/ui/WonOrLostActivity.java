@@ -60,7 +60,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             constraintLayout.setBackgroundColor(color);
             String tries = Integer.toString(logik.getAntalForkerteBogstaver());
             wonOrLostText.setText(R.string.you_won);
-            triesOrWordText.setText("You won with " + tries + " tries");
+            triesOrWordText.setText("You won with " + tries + " errors");
         } else {
             resources = getResources();
             colors = resources.getStringArray(R.array.colors);
