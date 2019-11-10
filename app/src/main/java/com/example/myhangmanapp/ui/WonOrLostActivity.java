@@ -53,6 +53,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         int color;
         String[] colors;
         Resources resources;
+
         if(logik.erSpilletVundet()) {
             resources = getResources();
             colors = resources.getStringArray(R.array.colors);

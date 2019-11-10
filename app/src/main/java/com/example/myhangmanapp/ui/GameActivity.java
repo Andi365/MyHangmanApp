@@ -33,6 +33,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     private String name;
     private String gameSelect;
     Galgelogik logik;
+    //https://stackoverflow.com/questions/7518803/wait-for-threads-to-complete-before-continuing
     final CountDownLatch latch = new CountDownLatch(1);
     //private Task task;
 
