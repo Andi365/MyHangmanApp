@@ -65,7 +65,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         }
         logik.logStatus();
 
-        wordField.setText(logik.getSynligtOrd());
+        wordField.setText("Ordet er: "+logik.getSynligtOrd() + " bogstaver: " + logik.getBrugteBogstaver());
 
         submitGuess.setOnClickListener(this);
     }
@@ -92,7 +92,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         Drawable hangmanTopImage = ContextCompat.getDrawable(this,picture.getHangmanPicture());
         hangmanPicture.setImageDrawable(hangmanTopImage);
 
-        wordField.setText(logik.getSynligtOrd());
+        wordField.setText("Ordet er: "+logik.getSynligtOrd() + " bogstaver: " + logik.getBrugteBogstaver());
     }
 
     private void activitySwitchWinOrLost() {
