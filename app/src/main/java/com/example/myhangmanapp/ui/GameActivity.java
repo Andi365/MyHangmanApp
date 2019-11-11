@@ -35,7 +35,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     Galgelogik logik;
     //https://stackoverflow.com/questions/7518803/wait-for-threads-to-complete-before-continuing
     final CountDownLatch latch = new CountDownLatch(1);
-    //private Task task;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +50,13 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         wordField = findViewById(R.id.wordField);
 
         name = getName();
-
         String fixedTextContainer = String.format("Welcome to this Hangman game, %s", name);
         fixedText.setText(fixedTextContainer);
         pictures = new Pictures();
 
-        System.out.println("task her");
-        //startAsyncTask();
         gameSelect = getGameKey();
         if(!gameSelect.equals("0")) {
             hentRegneArk.start();
-
             try {
                 latch.await();
             } catch (InterruptedException e) {
@@ -69,17 +65,10 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         }
         logik.logStatus();
 
-        System.out.println("task færdig her");
-
         wordField.setText(logik.getSynligtOrd());
 
         submitGuess.setOnClickListener(this);
     }
-
-    /*private void startAsyncTask() {
-        Task task = new Task(this);
-        task.execute();
-    }*/
 
     @Override
     public void onClick(View isClicked) {
@@ -93,7 +82,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     private void loadScreen(int pictureNumber) {
         // Checks if game is lost or won and display screen accordingly
         if(logik.erSpilletVundet() || logik.erSpilletTabt()) {
-            activitySwitchWinOrLost(logik.getAntalForkerteBogstaver());
+            activitySwitchWinOrLost();
         }
 
         System.out.println("Is game over?:  " + logik.erSpilletSlut());
@@ -106,18 +95,22 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         wordField.setText(logik.getSynligtOrd());
     }
 
-    private void activitySwitchWinOrLost(int wrongLetters) {
+    private void activitySwitchWinOrLost() {
         Resources resources = getResources();
-        String tries = resources.getString(R.string.tries);
-        String wrongLetter = Integer.toString(wrongLetters);
+        String nameKey = resources.getString(R.string.name_key);
         Intent intent = new Intent(GameActivity.this,WonOrLostActivity.class);
-        intent.putExtra(tries, wrongLetter);
+        intent.putExtra(nameKey, name);
         startActivity(intent);
     }
 
     private String getName() {
         Intent intent = getIntent();
         name = intent.getStringExtra(getString(R.string.name_key));
+        if(name == null) {
+            name = "Friend";
+            return name;
+        }
+        System.out.println(name);
         return name;
     }
 
@@ -126,34 +119,6 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         gameSelect = intent.getStringExtra(getString(R.string.game_select_key));
         return gameSelect;
     }
-
-    /*private static class Task extends AsyncTask<Void,Void,Void> {
-        private WeakReference<GameActivity> activityWeakReference;
-
-        Task(GameActivity activity) {
-            activityWeakReference = new WeakReference<>(activity);
-        }
-
-        @Override
-        protected Void doInBackground(Void... strings) {
-            try {
-                System.out.println("in doInBackGround");
-                GameActivity activity = activityWeakReference.get();
-
-                activity.logik.hentOrdFraRegneark("13");
-                System.out.println("Finished");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            System.out.println("Task finished");
-        }
-
-    }*/
 
     Thread hentRegneArk = new Thread() {
             @Override

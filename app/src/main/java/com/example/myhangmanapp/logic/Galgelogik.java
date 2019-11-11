@@ -1,6 +1,6 @@
 package com.example.myhangmanapp.logic;
 
-import android.os.AsyncTask;
+import com.example.myhangmanapp.model.Highscore;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 public class Galgelogik {
@@ -17,6 +20,7 @@ public class Galgelogik {
     private String ordet;
     private ArrayList<String> brugteBogstaver = new ArrayList<String>();
     private String synligtOrd;
+    private List<Highscore> highscores = new ArrayList<>();
     private int antalForkerteBogstaver;
     private boolean sidsteBogstavVarKorrekt;
     private boolean spilletErVundet;
@@ -204,5 +208,25 @@ public class Galgelogik {
 
         System.out.println("muligeOrd = " + muligeOrd);
         nulstil();
+    }
+
+    public List<Highscore> getHighscores() {
+        return highscores;
+    }
+
+    public void setHighscores(String name, int score) {
+        highscores.add(new Highscore(name,score));
+    }
+
+    public List getHighscoreList(){
+
+        Collections.sort(highscores, new Comparator<Highscore>() {
+            @Override
+            public int compare(Highscore h1, Highscore h2) {
+                return Integer.compare(h1.getScore(), h2.getScore());
+            }
+        });
+        Collections.reverse(highscores);
+        return highscores;
     }
 }
