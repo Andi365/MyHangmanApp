@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         intent.putExtra(nameKey, name);
 
         if(normalGame == isClicked) {
+            intent.putExtra(gameKey,"0");
             startActivity(intent);
         } else if(drGame == isClicked) {
             intent.putExtra(gameKey,"1");

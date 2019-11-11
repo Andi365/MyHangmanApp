@@ -57,12 +57,15 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
 
         System.out.println("task her");
         //startAsyncTask();
-        hentRegneArk.start();
+        gameSelect = getGameKey();
+        if(!gameSelect.equals("0")) {
+            hentRegneArk.start();
 
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         logik.logStatus();
 
@@ -153,10 +156,8 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     }*/
 
     Thread hentRegneArk = new Thread() {
-
             @Override
             public void run() {
-                gameSelect = getGameKey();
                 if(gameSelect.equals("1")) {
                     try {
                         logik.hentOrdFraDr();

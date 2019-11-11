@@ -5,6 +5,7 @@
     <!-- keys -->
     <string name="name_key">name</string>
     <string name="game_select_key">0</string>
+    <string name="highscore_key">0</string>
     <string name="tries">0</string>
 
     <string name="frontPagePicture">Hangman billede</string>
