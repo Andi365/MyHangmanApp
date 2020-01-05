@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -17,13 +18,19 @@ import android.view.View.OnClickListener;
 
 import com.example.myhangmanapp.R;
 import com.example.myhangmanapp.logic.Galgelogik;
+import com.example.myhangmanapp.model.Highscore;
 import com.example.myhangmanapp.model.Picture;
 import com.example.myhangmanapp.model.Pictures;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 public class GameActivity extends AppCompatActivity implements OnClickListener {
+    private ArrayList<Highscore> highscores = new ArrayList<>();
     private ImageView hangmanPicture;
     private TextView fixedText;
     private TextView wordField;
@@ -35,6 +42,10 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     Galgelogik logik;
     //https://stackoverflow.com/questions/7518803/wait-for-threads-to-complete-before-continuing
     final CountDownLatch latch = new CountDownLatch(1);
+
+    //For sharedpref
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String NAME = "name";
 
 
     @Override
@@ -54,6 +65,9 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         fixedText.setText(fixedTextContainer);
         pictures = new Pictures();
 
+        highscores = loadData();
+        logik.setHighscores(name);
+
         gameSelect = getGameKey();
         if(!gameSelect.equals("0")) {
             hentRegneArk.start();
@@ -65,7 +79,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         }
         logik.logStatus();
 
-        wordField.setText("Ordet er: "+logik.getSynligtOrd() + " bogstaver: " + logik.getBrugteBogstaver());
+        wordField.setText("Ordet er: "+ logik.getSynligtOrd() + " bogstaver: " + logik.getBrugteBogstaver());
 
         submitGuess.setOnClickListener(this);
     }
@@ -92,7 +106,20 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         Drawable hangmanTopImage = ContextCompat.getDrawable(this,picture.getHangmanPicture());
         hangmanPicture.setImageDrawable(hangmanTopImage);
 
-        wordField.setText("Ordet er: "+logik.getSynligtOrd() + " bogstaver: " + logik.getBrugteBogstaver());
+        wordField.setText("Ordet er: " + logik.getSynligtOrd() + " bogstaver: " + logik.getBrugteBogstaver());
+    }
+
+    private ArrayList<Highscore> loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(NAME, null);
+        Type type = new TypeToken<ArrayList<Highscore>>() {}.getType();
+
+        if(highscores == null) {
+            highscores = new ArrayList<>();
+        }
+
+        return highscores = gson.fromJson(json, type);
     }
 
     private void activitySwitchWinOrLost() {
@@ -106,7 +133,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     private String getName() {
         Intent intent = getIntent();
         name = intent.getStringExtra(getString(R.string.name_key));
-        if(name == null) {
+        if(name == null || name.equals("")) {
             name = "Friend";
             return name;
         }

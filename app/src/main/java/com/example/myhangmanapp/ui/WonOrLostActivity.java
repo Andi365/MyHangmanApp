@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -16,8 +15,8 @@ import android.graphics.Color;
 import com.example.myhangmanapp.R;
 import com.example.myhangmanapp.logic.Galgelogik;
 import com.example.myhangmanapp.model.Highscore;
-import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WonOrLostActivity extends AppCompatActivity implements OnClickListener {
@@ -25,7 +24,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
     private Button tryAgainButton;
     private ConstraintLayout constraintLayout;
     Galgelogik logik;
-    private List<Highscore> highscores;
+    private List<Highscore> highscores = new ArrayList<>();
     private String name;
 
     @Override
@@ -75,18 +74,24 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
     }
 
     private void generateScoreBoard() {
-        int score = generateScore(logik.getAntalForkerteBogstaver(),logik.erSpilletVundet());
-
         name = getName();
-        logik.setHighscores(name,score);
-        saveScore();
 
-        if(highscores.size()>=1) {
+        if (logik.getHighscoreList() != null && highscores.size() == 0) {
+            highscores.addAll(logik.getHighscoreList());
+        }
+
+        if(highscores.size() == 1) {
             firstPlace.setText(highscores.get(0).getName() + " har førstepladsen med scoren: " + highscores.get(0).getScore());
-        } else if (highscores.size()>=2) {
-            secondPlace.setText(highscores.get(1).getName() + " har førstepladsen med scoren: " + highscores.get(1).getScore());
-        } else {
-            thirdPlace.setText(highscores.get(2).getName() + " har førstepladsen med scoren: " + highscores.get(2).getScore());
+            secondPlace.setVisibility(View.INVISIBLE);
+            thirdPlace.setVisibility(View.INVISIBLE);
+        } else if(highscores.size() == 2) {
+            firstPlace.setText(highscores.get(0).getName() + " har førstepladsen med scoren: " + highscores.get(0).getScore());
+            secondPlace.setText(highscores.get(1).getName() + " har andenpladsen med scoren: " + highscores.get(1).getScore());
+            thirdPlace.setVisibility(View.INVISIBLE);
+        } else if(highscores.size() == 3) {
+            firstPlace.setText(highscores.get(0).getName() + " har førstepladsen med scoren: " + highscores.get(0).getScore());
+            secondPlace.setText(highscores.get(1).getName() + " har andenpladsen med scoren: " + highscores.get(1).getScore());
+            thirdPlace.setText(highscores.get(2).getName() + " har tredjepladsen med scoren: " + highscores.get(2).getScore());
         }
     }
 
@@ -96,32 +101,13 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         return name;
     }
 
-    void saveScore(){
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(logik.getHighscoreList());
-        editor.putString("highscore",json);
-        editor.apply();
-    }
-
-    private int generateScore(int wrongLetters, Boolean gameWon) {
-        int score = 100;
-        if(wrongLetters <= 2 && gameWon) {
-            score = 100 - 20;
-        } else if((wrongLetters <= 4 && wrongLetters > 2) && gameWon) {
-            score = 100-40;
-        } else if((wrongLetters <= 6 && wrongLetters > 4) && gameWon) {
-            score = 100-60;
-        } else if(!gameWon) {
-            score = 0;
-        }
-        return score;
-    }
-
     @Override
     public void onClick(View isClicked) {
         if(tryAgainButton == isClicked) {
+            logik.nulstil();
+            firstPlace.setVisibility(View.VISIBLE);
+            secondPlace.setVisibility(View.VISIBLE);
+            thirdPlace.setVisibility(View.VISIBLE);
             Intent intent = new Intent(WonOrLostActivity.this,MainActivity.class);
             startActivity(intent);
         }

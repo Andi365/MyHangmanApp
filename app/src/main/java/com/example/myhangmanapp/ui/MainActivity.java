@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.example.myhangmanapp.R;
 import com.example.myhangmanapp.logic.Galgelogik;
@@ -19,29 +20,30 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
     private EditText nameField;
     private Button normalGame,drGame,spreadsheetGame;
     private Galgelogik logik;
-    private List<Highscore> highscores;
-    private String name;
+    private ArrayList<Highscore> highscores = new ArrayList<>();
     private String nameKey;
+
+    //For sharedpref
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String NAME = "name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logik = logik.getInstance();
-        highscores = logik.getHighscores();
+        logik.setHighscoreList(highscores);
+        loadData();
 
         nameField = findViewById(R.id.nameContainer);
         normalGame = findViewById(R.id.normalGame);
         drGame = findViewById(R.id.getListFromDR);
         spreadsheetGame = findViewById(R.id.getListFromSpreadsheet);
-
-        getScore();
 
         normalGame.setOnClickListener(this);
         drGame.setOnClickListener(this);
@@ -51,12 +53,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     public void onClick(View isClicked) {
         Resources resources = getResources();
-        name = nameField.getText().toString();
-        nameKey = resources.getString(R.string.name_key);
+        nameKey = nameField.getText().toString();
+
+        String key = resources.getString(R.string.name_key);
 
         String gameKey = resources.getString(R.string.game_select_key);
         Intent intent = new Intent(MainActivity.this,GameActivity.class);
-        intent.putExtra(nameKey, name);
+        intent.putExtra(key, nameKey);
         saveName();
 
         if(normalGame == isClicked) {
@@ -72,24 +75,28 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void saveName(){
-        Resources resources = getResources();
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        nameKey = resources.getString(R.string.name_key);
-        editor.putString("name",nameKey);
+        Gson gson = new Gson();
+        nameKey = nameField.getText().toString();
+
+        String json = gson.toJson(highscores);
+        editor.putString(NAME,json);
         editor.apply();
+
+        Toast.makeText(this,"Name saved",Toast.LENGTH_SHORT).show();
     }
 
-    private void getScore() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared", MODE_PRIVATE);
+    private ArrayList<Highscore> loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("highscore", null);
-        Type type = new TypeToken<ArrayList<Highscore>>() {
-        }.getType();
-        highscores = gson.fromJson(json, type);
-        name = sharedPreferences.getString("name",null);
-        if (highscores == null) {
+        String json = sharedPreferences.getString(NAME, null);
+        Type type = new TypeToken<ArrayList<Highscore>>() {}.getType();
+
+        if(highscores == null) {
             highscores = new ArrayList<>();
         }
+
+        return highscores = gson.fromJson(json, type);
     }
 }

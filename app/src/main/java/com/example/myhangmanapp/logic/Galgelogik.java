@@ -214,8 +214,12 @@ public class Galgelogik {
         return highscores;
     }
 
-    public void setHighscores(String name, int score) {
-        highscores.add(new Highscore(name,score));
+    public void setHighscoreList(ArrayList<Highscore> highScoresList){
+        highscores.addAll(highScoresList);
+    }
+
+    public void setHighscores(String name) {
+        highscores.add(new Highscore(name));
     }
 
     public List getHighscoreList(){
