@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +23,6 @@ import com.example.myhangmanapp.model.Pictures;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
