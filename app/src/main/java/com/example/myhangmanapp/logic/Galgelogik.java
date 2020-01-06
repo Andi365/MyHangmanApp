@@ -20,7 +20,7 @@ public class Galgelogik {
     private String ordet;
     private ArrayList<String> brugteBogstaver = new ArrayList<String>();
     private String synligtOrd;
-    private List<Highscore> highscores = new ArrayList<>();
+    private ArrayList<Highscore> highscores = new ArrayList<>();
     private int antalForkerteBogstaver;
     private boolean sidsteBogstavVarKorrekt;
     private boolean spilletErVundet;
@@ -210,7 +210,7 @@ public class Galgelogik {
         nulstil();
     }
 
-    public List<Highscore> getHighscores() {
+    public ArrayList<Highscore> getHighscores() {
         return highscores;
     }
 
@@ -218,11 +218,11 @@ public class Galgelogik {
         highscores.addAll(highScoresList);
     }
 
-    public void setHighscores(String name) {
-        highscores.add(new Highscore(name));
+    public void setHighscores(String name, int score) {
+        highscores.add(new Highscore(name,score));
     }
 
-    public List getHighscoreList(){
+    public ArrayList<Highscore> getHighscoreList(){
 
         Collections.sort(highscores, new Comparator<Highscore>() {
             @Override

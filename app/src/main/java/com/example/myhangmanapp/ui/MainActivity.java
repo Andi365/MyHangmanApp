@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.example.myhangmanapp.R;
 import com.example.myhangmanapp.logic.Galgelogik;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         String gameKey = resources.getString(R.string.game_select_key);
         Intent intent = new Intent(MainActivity.this,GameActivity.class);
         intent.putExtra(key, nameKey);
-        saveName();
+        //saveName();
 
         if(normalGame == isClicked) {
             intent.putExtra(gameKey,"0");
@@ -72,19 +71,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             intent.putExtra(gameKey,"2");
             startActivity(intent);
         }
-    }
-
-    private void saveName(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        nameKey = nameField.getText().toString();
-
-        String json = gson.toJson(highscores);
-        editor.putString(NAME,json);
-        editor.apply();
-
-        Toast.makeText(this,"Name saved",Toast.LENGTH_SHORT).show();
     }
 
     private ArrayList<Highscore> loadData() {

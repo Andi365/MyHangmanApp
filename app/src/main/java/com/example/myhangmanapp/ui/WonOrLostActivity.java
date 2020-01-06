@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +12,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.graphics.Color;
+import android.widget.Toast;
 
 import com.example.myhangmanapp.R;
 import com.example.myhangmanapp.logic.Galgelogik;
 import com.example.myhangmanapp.model.Highscore;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +29,21 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
     private Button tryAgainButton;
     private ConstraintLayout constraintLayout;
     Galgelogik logik;
-    private List<Highscore> highscores = new ArrayList<>();
+    private ArrayList<Highscore> highscores = new ArrayList<>();
     private String name;
+    private String nameKey;
+
+    //For sharedpref
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String NAME = "name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wonorlost);
         logik = logik.getInstance();
-        highscores = logik.getHighscores();
+
+        loadData();
 
         wonOrLostText = findViewById(R.id.statusText);
         tryAgainButton = findViewById(R.id.newGame);
@@ -42,9 +53,29 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         secondPlace = findViewById(R.id.winner2);
         thirdPlace = findViewById(R.id.winner3);
 
-        wonOrLost();
+        generatescore();
 
         tryAgainButton.setOnClickListener(this);
+    }
+
+    private void generatescore() {
+        String name = getName();
+        int score = 0;
+
+        int wrongLetters = logik.getAntalForkerteBogstaver();
+        boolean isGameWon = logik.erSpilletVundet();
+        if(wrongLetters <= 1 && isGameWon) {
+            score = 100 - 20;
+        } else if((wrongLetters <= 3 && wrongLetters > 1) && isGameWon) {
+            score = 100-40;
+        } else if((wrongLetters <= 5 && wrongLetters > 3) && isGameWon) {
+            score = 100-60;
+        }
+
+        logik.setHighscores(name,score);
+        saveHighscore();
+
+        wonOrLost();
     }
 
 
@@ -74,10 +105,8 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
     }
 
     private void generateScoreBoard() {
-        name = getName();
-
-        if (logik.getHighscoreList() != null && highscores.size() == 0) {
-            highscores.addAll(logik.getHighscoreList());
+        if (logik.getHighscoreList() != null && highscores == null) {
+            highscores = logik.getHighscoreList();
         }
 
         if(highscores.size() == 1) {
@@ -95,11 +124,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         }
     }
 
-    private String getName() {
-        Intent intent = getIntent();
-        name = intent.getStringExtra(getString(R.string.name_key));
-        return name;
-    }
+
 
     @Override
     public void onClick(View isClicked) {
@@ -111,5 +136,35 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             Intent intent = new Intent(WonOrLostActivity.this,MainActivity.class);
             startActivity(intent);
         }
+    }
+
+    private void saveHighscore(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+
+        String json = gson.toJson(highscores);
+        editor.putString(NAME,json);
+        editor.apply();
+
+        Toast.makeText(this,"Name+score saved",Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(NAME, null);
+        Type type = new TypeToken<ArrayList<Highscore>>() {}.getType();
+
+        if(highscores == null) {
+            highscores = new ArrayList<>();
+        }
+        highscores = gson.fromJson(json,type);
+    }
+
+    private String getName() {
+        Intent intent = getIntent();
+        name = intent.getStringExtra(getString(R.string.name_key));
+        return name;
     }
 }

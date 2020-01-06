@@ -65,9 +65,6 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         fixedText.setText(fixedTextContainer);
         pictures = new Pictures();
 
-        highscores = loadData();
-        logik.setHighscores(name);
-
         gameSelect = getGameKey();
         if(!gameSelect.equals("0")) {
             hentRegneArk.start();
