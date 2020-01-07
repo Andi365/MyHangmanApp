@@ -101,7 +101,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
                     .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
                     .setDirection(0.0, 359.0)
                     .setSpeed(1f, 5f)
-                    .setFadeOutEnabled(true)
+                    .setFadeOutEnabled(false)
                     .setTimeToLive(2000L)
                     .addShapes(Shape.RECT, Shape.CIRCLE)
                     .addSizes(new Size(12, 5))
@@ -152,6 +152,8 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             startActivity(intent);
         }
     }
+
+
 
     private void saveHighscore(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
