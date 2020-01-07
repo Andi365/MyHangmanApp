@@ -153,7 +153,12 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        logik.nulstil();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
 
     private void saveHighscore(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
