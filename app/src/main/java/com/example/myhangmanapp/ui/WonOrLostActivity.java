@@ -22,7 +22,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
@@ -32,6 +31,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
     private Button tryAgainButton;
     private ConstraintLayout constraintLayout;
     private nl.dionsegijn.konfetti.KonfettiView viewKonfetti;
+    private com.airbnb.lottie.LottieAnimationView lottieAnimationView;
     Galgelogik logik;
     private ArrayList<Highscore> highscores = new ArrayList<>();
     private String name;
@@ -57,6 +57,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         secondPlace = findViewById(R.id.winner2);
         thirdPlace = findViewById(R.id.winner3);
         viewKonfetti = findViewById(R.id.viewKonfetti);
+        lottieAnimationView = findViewById(R.id.animation_view);
 
         generatescore();
 
@@ -112,8 +113,10 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             colors = resources.getStringArray(R.array.colors);
             color = Color.parseColor(colors[1]);
             constraintLayout.setBackgroundColor(color);
+            lottieAnimationView.setVisibility(View.INVISIBLE);
             wonOrLostText.setText(R.string.you_lost);
             triesOrWordText.setText("The word you tried to guess was: " + logik.getOrdet());
+
         }
 
         generateScoreBoard();
@@ -125,17 +128,17 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         }
 
         if(highscores.size() == 1) {
-            firstPlace.setText(highscores.get(0).getName() + " har førstepladsen med scoren: " + highscores.get(0).getScore());
+            firstPlace.setText(highscores.get(0).getName() + " is in the lead with a score of: " + highscores.get(0).getScore());
             secondPlace.setVisibility(View.INVISIBLE);
             thirdPlace.setVisibility(View.INVISIBLE);
         } else if(highscores.size() == 2) {
-            firstPlace.setText(highscores.get(0).getName() + " har førstepladsen med scoren: " + highscores.get(0).getScore());
-            secondPlace.setText(highscores.get(1).getName() + " har andenpladsen med scoren: " + highscores.get(1).getScore());
+            firstPlace.setText(highscores.get(0).getName() + " is in the lead with a score of: " + highscores.get(0).getScore());
+            secondPlace.setText(highscores.get(1).getName() + " has second place with a score of: " + highscores.get(1).getScore());
             thirdPlace.setVisibility(View.INVISIBLE);
         } else if(highscores.size() == 3) {
-            firstPlace.setText(highscores.get(0).getName() + " har førstepladsen med scoren: " + highscores.get(0).getScore());
-            secondPlace.setText(highscores.get(1).getName() + " har andenpladsen med scoren: " + highscores.get(1).getScore());
-            thirdPlace.setText(highscores.get(2).getName() + " har tredjepladsen med scoren: " + highscores.get(2).getScore());
+            firstPlace.setText(highscores.get(0).getName() + " is in the lead with a score of: " + highscores.get(0).getScore());
+            secondPlace.setText(highscores.get(1).getName() + " has second place with a score of: " + highscores.get(1).getScore());
+            thirdPlace.setText(highscores.get(2).getName() + " has third place with a score of: " + highscores.get(2).getScore());
         }
     }
 
@@ -169,7 +172,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         editor.putString(NAME,json);
         editor.apply();
 
-        Toast.makeText(this,"Name+score saved",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Highscore saved",Toast.LENGTH_SHORT).show();
     }
 
     private void loadData() {

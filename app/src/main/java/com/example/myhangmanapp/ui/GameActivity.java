@@ -45,7 +45,6 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String NAME = "name";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +73,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         }
         logik.logStatus();
 
-        wordField.setText("Ordet er: "+ logik.getSynligtOrd() + " bogstaver: " + logik.getBrugteBogstaver());
+        wordField.setText("The word is: "+ logik.getSynligtOrd() + " used letters: " + logik.getBrugteBogstaver());
 
         submitGuess.setOnClickListener(this);
     }
@@ -86,6 +85,13 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         logik.gætBogstav(guess);
         loadScreen(logik.getAntalForkerteBogstaver());
         guessField.getText().clear();
+    }
+
+    @Override
+    public void onBackPressed() {
+        logik.nulstil();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 
     private void loadScreen(int pictureNumber) {
@@ -101,7 +107,7 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         Drawable hangmanTopImage = ContextCompat.getDrawable(this,picture.getHangmanPicture());
         hangmanPicture.setImageDrawable(hangmanTopImage);
 
-        wordField.setText("Ordet er: " + logik.getSynligtOrd() + " bogstaver: " + logik.getBrugteBogstaver());
+        wordField.setText("The word is: "+ logik.getSynligtOrd() + " used letters: " + logik.getBrugteBogstaver());
     }
 
     private ArrayList<Highscore> loadData() {
