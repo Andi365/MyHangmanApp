@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -98,6 +99,8 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             String tries = Integer.toString(logik.getAntalForkerteBogstaver());
             wonOrLostText.setText(R.string.you_won);
             triesOrWordText.setText("You had " + tries + " errors");
+
+            //Confetti implementation
             viewKonfetti.build()
                     .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
                     .setDirection(0.0, 359.0)
@@ -108,6 +111,16 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
                     .addSizes(new Size(12, 5))
                     .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
                     .streamFor(300, 5000L);
+
+            // Sound of applause
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.applause);
+            mp.start();
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
         } else {
             resources = getResources();
             colors = resources.getStringArray(R.array.colors);
@@ -117,6 +130,14 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             wonOrLostText.setText(R.string.you_lost);
             triesOrWordText.setText("The word you tried to guess was: " + logik.getOrdet());
 
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.boohiss);
+            mp.start();
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
         }
 
         generateScoreBoard();
