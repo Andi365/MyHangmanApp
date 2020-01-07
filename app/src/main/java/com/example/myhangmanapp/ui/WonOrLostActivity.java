@@ -24,10 +24,14 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
+
 public class WonOrLostActivity extends AppCompatActivity implements OnClickListener {
     private TextView wonOrLostText,triesOrWordText, firstPlace, secondPlace, thirdPlace;
     private Button tryAgainButton;
     private ConstraintLayout constraintLayout;
+    private nl.dionsegijn.konfetti.KonfettiView viewKonfetti;
     Galgelogik logik;
     private ArrayList<Highscore> highscores = new ArrayList<>();
     private String name;
@@ -52,6 +56,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         firstPlace = findViewById(R.id.winner1);
         secondPlace = findViewById(R.id.winner2);
         thirdPlace = findViewById(R.id.winner3);
+        viewKonfetti = findViewById(R.id.viewKonfetti);
 
         generatescore();
 
@@ -92,6 +97,16 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             String tries = Integer.toString(logik.getAntalForkerteBogstaver());
             wonOrLostText.setText(R.string.you_won);
             triesOrWordText.setText("You had " + tries + " errors");
+            viewKonfetti.build()
+                    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                    .setDirection(0.0, 359.0)
+                    .setSpeed(1f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(2000L)
+                    .addShapes(Shape.RECT, Shape.CIRCLE)
+                    .addSizes(new Size(12, 5))
+                    .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
+                    .streamFor(300, 5000L);
         } else {
             resources = getResources();
             colors = resources.getStringArray(R.array.colors);
