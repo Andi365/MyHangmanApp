@@ -173,6 +173,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
             secondPlace.setVisibility(View.VISIBLE);
             thirdPlace.setVisibility(View.VISIBLE);
             Intent intent = new Intent(WonOrLostActivity.this,MainActivity.class);
+            finish();
             startActivity(intent);
         }
     }
