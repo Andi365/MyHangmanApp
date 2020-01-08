@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 
 import com.example.myhangmanapp.R;
 import com.example.myhangmanapp.logic.Galgelogik;
-import com.example.myhangmanapp.model.Highscore;
+import com.example.myhangmanapp.model.HighscoreObj;
 import com.example.myhangmanapp.model.Picture;
 import com.example.myhangmanapp.model.Pictures;
 import com.google.gson.Gson;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 public class GameActivity extends AppCompatActivity implements OnClickListener {
-    private ArrayList<Highscore> highscores = new ArrayList<>();
+    private ArrayList<HighscoreObj> highscoreObjs = new ArrayList<>();
     private ImageView hangmanPicture;
     private TextView fixedText;
     private TextView wordField;
@@ -110,17 +110,17 @@ public class GameActivity extends AppCompatActivity implements OnClickListener {
         wordField.setText("The word is: "+ logik.getSynligtOrd() + " used letters: " + logik.getBrugteBogstaver());
     }
 
-    private ArrayList<Highscore> loadData() {
+    private ArrayList<HighscoreObj> loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(NAME, null);
-        Type type = new TypeToken<ArrayList<Highscore>>() {}.getType();
+        Type type = new TypeToken<ArrayList<HighscoreObj>>() {}.getType();
 
-        if(highscores == null) {
-            highscores = new ArrayList<>();
+        if(highscoreObjs == null) {
+            highscoreObjs = new ArrayList<>();
         }
 
-        return highscores = gson.fromJson(json, type);
+        return highscoreObjs = gson.fromJson(json, type);
     }
 
     private void activitySwitchWinOrLost() {

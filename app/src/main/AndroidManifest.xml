@@ -12,6 +12,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".logic.Highscore"></activity>
         <activity android:name=".ui.WonOrLostActivity" />
         <activity
             android:name=".ui.MainActivity"

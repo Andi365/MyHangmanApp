@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.myhangmanapp.R;
 import com.example.myhangmanapp.logic.Galgelogik;
-import com.example.myhangmanapp.model.Highscore;
+import com.example.myhangmanapp.model.HighscoreObj;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,9 +34,8 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
     private nl.dionsegijn.konfetti.KonfettiView viewKonfetti;
     private com.airbnb.lottie.LottieAnimationView lottieAnimationView;
     Galgelogik logik;
-    private ArrayList<Highscore> highscores = new ArrayList<>();
+    private ArrayList<HighscoreObj> highscoreObjs = new ArrayList<>();
     private String name;
-    private String nameKey;
 
     //For sharedpref
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -144,22 +143,22 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
     }
 
     private void generateScoreBoard() {
-        if (logik.getHighscoreList() != null && highscores == null) {
-            highscores = logik.getHighscoreList();
+        if (logik.getHighscoreList() != null && highscoreObjs == null) {
+            highscoreObjs = logik.getHighscoreList();
         }
 
-        if(highscores.size() == 1) {
-            firstPlace.setText(highscores.get(0).getName() + " is in the lead with a score of: " + highscores.get(0).getScore());
+        if(highscoreObjs.size() == 1) {
+            firstPlace.setText(highscoreObjs.get(0).getName() + " is in the lead with a score of: " + highscoreObjs.get(0).getScore());
             secondPlace.setVisibility(View.INVISIBLE);
             thirdPlace.setVisibility(View.INVISIBLE);
-        } else if(highscores.size() == 2) {
-            firstPlace.setText(highscores.get(0).getName() + " is in the lead with a score of: " + highscores.get(0).getScore());
-            secondPlace.setText(highscores.get(1).getName() + " has second place with a score of: " + highscores.get(1).getScore());
+        } else if(highscoreObjs.size() == 2) {
+            firstPlace.setText(highscoreObjs.get(0).getName() + " is in the lead with a score of: " + highscoreObjs.get(0).getScore());
+            secondPlace.setText(highscoreObjs.get(1).getName() + " has second place with a score of: " + highscoreObjs.get(1).getScore());
             thirdPlace.setVisibility(View.INVISIBLE);
-        } else if(highscores.size() == 3) {
-            firstPlace.setText(highscores.get(0).getName() + " is in the lead with a score of: " + highscores.get(0).getScore());
-            secondPlace.setText(highscores.get(1).getName() + " has second place with a score of: " + highscores.get(1).getScore());
-            thirdPlace.setText(highscores.get(2).getName() + " has third place with a score of: " + highscores.get(2).getScore());
+        } else if(highscoreObjs.size() == 3) {
+            firstPlace.setText(highscoreObjs.get(0).getName() + " is in the lead with a score of: " + highscoreObjs.get(0).getScore());
+            secondPlace.setText(highscoreObjs.get(1).getName() + " has second place with a score of: " + highscoreObjs.get(1).getScore());
+            thirdPlace.setText(highscoreObjs.get(2).getName() + " has third place with a score of: " + highscoreObjs.get(2).getScore());
         }
     }
 
@@ -190,7 +189,7 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
 
-        String json = gson.toJson(highscores);
+        String json = gson.toJson(highscoreObjs);
         editor.putString(NAME,json);
         editor.apply();
 
@@ -201,12 +200,12 @@ public class WonOrLostActivity extends AppCompatActivity implements OnClickListe
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(NAME, null);
-        Type type = new TypeToken<ArrayList<Highscore>>() {}.getType();
+        Type type = new TypeToken<ArrayList<HighscoreObj>>() {}.getType();
 
-        if(highscores == null) {
-            highscores = new ArrayList<>();
+        if(highscoreObjs == null) {
+            highscoreObjs = new ArrayList<>();
         }
-        highscores = gson.fromJson(json,type);
+        highscoreObjs = gson.fromJson(json,type);
     }
 
     private String getName() {

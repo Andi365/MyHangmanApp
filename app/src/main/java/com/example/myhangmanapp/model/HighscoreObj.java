@@ -2,13 +2,13 @@ package com.example.myhangmanapp.model;
 
 import com.example.myhangmanapp.logic.Galgelogik;
 
-public class Highscore {
+public class HighscoreObj {
     private Galgelogik logik;
 
     private String name;
     private int score = 100;
 
-    public Highscore(String name, int score) {
+    public HighscoreObj(String name, int score) {
         this.name = name;
         this.score = score;
         logik = logik.getInstance();

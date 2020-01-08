@@ -1,6 +1,6 @@
 package com.example.myhangmanapp.logic;
 
-import com.example.myhangmanapp.model.Highscore;
+import com.example.myhangmanapp.model.HighscoreObj;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 
 public class Galgelogik {
@@ -20,7 +19,7 @@ public class Galgelogik {
     private String ordet;
     private ArrayList<String> brugteBogstaver = new ArrayList<String>();
     private String synligtOrd;
-    private ArrayList<Highscore> highscores = new ArrayList<>();
+    private ArrayList<HighscoreObj> highscoreObjs = new ArrayList<>();
     private int antalForkerteBogstaver;
     private boolean sidsteBogstavVarKorrekt;
     private boolean spilletErVundet;
@@ -210,27 +209,27 @@ public class Galgelogik {
         nulstil();
     }
 
-    public ArrayList<Highscore> getHighscores() {
-        return highscores;
+    public ArrayList<HighscoreObj> getHighscoreObjs() {
+        return highscoreObjs;
     }
 
-    public void setHighscoreList(ArrayList<Highscore> highScoresList){
-        highscores.addAll(highScoresList);
+    public void setHighscoreList(ArrayList<HighscoreObj> highScoresList){
+        highscoreObjs.addAll(highScoresList);
     }
 
     public void setHighscores(String name, int score) {
-        highscores.add(new Highscore(name,score));
+        highscoreObjs.add(new HighscoreObj(name,score));
     }
 
-    public ArrayList<Highscore> getHighscoreList(){
+    public ArrayList<HighscoreObj> getHighscoreList(){
 
-        Collections.sort(highscores, new Comparator<Highscore>() {
+        Collections.sort(highscoreObjs, new Comparator<HighscoreObj>() {
             @Override
-            public int compare(Highscore h1, Highscore h2) {
+            public int compare(HighscoreObj h1, HighscoreObj h2) {
                 return Integer.compare(h1.getScore(), h2.getScore());
             }
         });
-        Collections.reverse(highscores);
-        return highscores;
+        Collections.reverse(highscoreObjs);
+        return highscoreObjs;
     }
 }
