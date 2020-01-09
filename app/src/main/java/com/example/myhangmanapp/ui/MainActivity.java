@@ -69,9 +69,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             intent.putExtra(gameKey,"0");
             startActivity(intent);
         } else if(drGame == isClicked) {
+            Toast.makeText(this,"Downloading words from DR.DK!",Toast.LENGTH_SHORT).show();
             intent.putExtra(gameKey,"1");
             startActivity(intent);
         } else if(spreadsheetGame == isClicked) {
+            Toast.makeText(this,"Downloading words from spreadsheet!",Toast.LENGTH_SHORT).show();
             intent.putExtra(gameKey,"2");
             startActivity(intent);
         } else if(highscore == isClicked) {

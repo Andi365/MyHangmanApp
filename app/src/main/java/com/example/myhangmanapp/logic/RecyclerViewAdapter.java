@@ -34,8 +34,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.d(TAG, "OnBindViewHolder: called.");
 
-        //TODO: keep an eye on this on
-        holder.name.setText("player " + name.get(position).getName() + " has score of: " + name.get(position).getScore());
+        //Sorry i was lazy
+        holder.name.setText(name.get(position).getName() + "                                                        " + name.get(position).getScore());
     }
 
     @Override
@@ -50,7 +50,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-
         }
     }
 }

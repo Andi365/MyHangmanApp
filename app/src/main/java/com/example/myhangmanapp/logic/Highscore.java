@@ -42,21 +42,6 @@ public class Highscore extends AppCompatActivity {
             Toast.makeText(this,"No scores yet saved!",Toast.LENGTH_SHORT).show();
         }
 
-        HighscoreObj player1 = new HighscoreObj("Janus",100);
-        highscoreObjs.add(player1);
-        highscoreObjs.add(player1);
-        highscoreObjs.add(player1);
-        highscoreObjs.add(player1);
-        highscoreObjs.add(player1);
-        highscoreObjs.add(player1);
-        highscoreObjs.add(player1);
-        highscoreObjs.add(player1);
-        highscoreObjs.add(player1);
-
-
-
-
-
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
         adapter = new RecyclerViewAdapter(this, highscoreObjs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -5,20 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:id="@+id/parent_layout">
-
-    <ImageView
-        android:id="@+id/layoutListItemImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:paddingTop="5dp"
-        tools:srcCompat="@tools:sample/avatars" />
+    android:id="@+id/parent_layout"
+    android:background="@color/grey">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/layoutListItemImage"
+        android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:text=""

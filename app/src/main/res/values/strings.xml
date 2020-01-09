@@ -24,7 +24,8 @@
     <string name="won_or_lost">wonOrLost</string>
     <string name="play_again">Play again!</string>
     <string name="tries_or_word">triesOrWord</string>
-    <string name="highscore">Highscore</string>
+    <string name="highscore">HIGHSCORE</string>
+
 
     <string-array name="colors">
         <item>#39add1</item>

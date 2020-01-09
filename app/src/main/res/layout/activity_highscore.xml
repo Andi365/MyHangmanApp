@@ -13,14 +13,25 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="HIGHSCORE"
+        android:text="@string/highscore"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/textForHighscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/recipeTitleText"
+        android:text="Name:                                     Score:"
         android:textSize="20sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/recipeTitleText"
+        android:layout_below="@id/textForHighscore"
         android:id="@+id/recyclerv_view">
     </androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>
